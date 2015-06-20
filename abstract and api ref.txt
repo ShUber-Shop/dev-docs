@@ -1,0 +1,88 @@
+Personal Shopper App
+
+Abstract: The user creates a shopping list with a price range for each item, and from there a budget is defined. The user then sends out the list looking for shoppers near him, and then all of the shoppers in the area are notified. Once a shopper nearby accepts the offer, contact info is exchanged, and the users can go at it hehe.
+
+Required Technologies:
+Backend Server
+NodeJS
+MongoDB
+ExpressJS
+Android App
+Consumes REST-ful API
+Good UX
+Sexy UI
+
+Minimum Viable Product: An app through which a user can signup to be either a shopper or a consumer. The consumer must be able to put together a shopping list in-app, and then put down the deposit. The shopper must then be able to receive the lists, and accept them if he wants to do them. The app must then swap the users’ contact info, so that they can talk. Once the stuff has been purchased, the shopper must upload pictures of all of the receipts and a ‘grand total.’ The user must then pay the ‘grand total’ plus a tip, and can then review the shopper with a 1-5 start rating, and a comment.
+
+Required Models:
+
+User:
+
+firstName: String,
+lastName: String,
+mail: String,
+email: String,
+isConsumer: Boolean
+
+Review:
+by: { type: mongoose.Schema.ObjectId, ref: 'User' },
+for: { type: mongoose.Schema.ObjectId, ref: 'User' },
+rating: Integer,
+comment: String
+
+ShoppingItem:
+name: String,
+priceMin: Float,
+priceMax: Float,
+comments: String
+
+ShoppingList:
+name: String,
+items: [{ type: mongoose.Schema.ObjectId, ref: 'ShoppingItem' }],
+looking: Boolean
+
+Job:
+list: { type: mongoose.Schema.ObjectId, ref: ‘ShoppingList' },
+expenseLinks: [{ type: String }],
+done: Boolean,
+total: Float
+
+Routes:
+Signup a new Consumer
+[POST]/api/v1/consumers/signup
+Signup a new Shopper
+[POST]/api/v1/shoppers/signup
+Login as a consumer
+[POST]/api/v1/consumers/signin
+Login as a shopper
+[POST]/api/v1/shoppers/signin
+View a consumer’s contact info
+[GET]/api/v1/consumers/:consumer_id
+View a shopper’s contact info
+[GET]/api/v1/shoppers/:shopper_id
+Create a new list
+[POST]/api/v1/lists
+View a list
+[GET]/api/v1/lists/:list_id
+Add an item to a list
+[POST]/api/v1/lists/:list_id/items
+View an item in the list
+[GET]/api/v1/lists/:list_id/items/:item_id
+Remove an item
+[DELETE]/api/v1/lists/:list_id/items/:item_id
+Update an item
+[PUT]/api/v1/lists/:list_id/items/:item_id
+Open a new job, and find someone to do it
+[POST]/api/v1/jobs
+Cancel a job
+[DELETE]/api/v1/jobs/:job_id
+Accept a job to do
+[POST]/api/v1/jobs/:job_id/accept
+Expense a job
+[POST]/api/v1/jobs/:job_id/expense
+Finish a job
+[POST]/api/v1/jobs/:job_id/finish
+Pay for a job
+[POST]/api/v1/jobs/:job_id/pay
+Review a job
+[POST]/api/v1/jobs/:job_id/review
